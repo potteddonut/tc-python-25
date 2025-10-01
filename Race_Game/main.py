@@ -12,12 +12,8 @@ def level1():
     win_condition = None
     win_text = font.render('', True, (0, 255, 0))
     loss_text = font.render('', True, (255, 0, 0))
-    pygame.mixer.music.load('My_Life_Be_Like.mp3')
     t0 = time.time()
     
-
-
-
     class CarSprite(pygame.sprite.Sprite):
         MAX_FORWARD_SPEED = 10
         MAX_REVERSE_SPEED = 10
@@ -151,7 +147,6 @@ def level1():
             if win_condition == True:
                 car.k_right = -5
                 
-
         pad_group.update(collisions)
         pad_group.draw(screen)
         car_group.draw(screen)
