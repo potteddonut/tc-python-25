@@ -1,33 +1,41 @@
-#initialize the screen
-import pygame, math, sys, level2, time
+#pyright: reportAttributeAccessIssue=false 
+# 
+# initialize the screen
+import pygame, math, sys, time
 from pygame.locals import *
 
-from utils import *
-from padsprite import PadSprite
-from carsprite import CarSprite
-from trophy import Trophy
+from utils.utils import *
+from utils.padsprite import PadSprite
+from utils.carsprite import CarSprite
+from utils.trophy import Trophy
+
+from level2 import level2
 
 def level1():
     screen, clock, font, win_font, win_condition, win_text, loss_text, t0 = init_level()
     
-    pads = [
-        PadSprite((0, 10)),
-        PadSprite((600, 10)),
-        PadSprite((1100, 10)),
-        PadSprite((100, 150)),
-        PadSprite((600, 150)),
-        PadSprite((100, 300)),
-        PadSprite((800, 300)),
-        PadSprite((400, 450)),
-        PadSprite((700, 450)),
-        PadSprite((200, 600)),
-        PadSprite((900, 600)),
-        PadSprite((400, 750)),
-        PadSprite((800, 750)),
-    ]
+    pads = [PadSprite((x, y)) for (x, y) in [
+        (0, 10),
+        (700, 10),
+        (1100, 10),
+
+        (100, 150),
+        (400, 150),
+
+        (50, 300),
+        (900, 300),
+
+        (600, 450),
+
+        (100, 600),
+        (900, 600),
+
+        (500, 750),
+        (800, 750),
+    ]]
     pad_group = pygame.sprite.RenderPlain(*pads)
 
-    trophies = [Trophy((285,0))]
+    trophies = [Trophy((315,0))]
     trophy_group = pygame.sprite.RenderPlain(*trophies)
 
     # CREATE A CAR AND RUN
@@ -42,21 +50,39 @@ def level1():
         dt = t1-t0
 
         deltat = clock.tick(30)
+
+
+        # MISSING SECTION
         for event in pygame.event.get():
-            if not hasattr(event, 'key'): continue
+            if not hasattr(event, 'key'):
+                continue
+
             down = event.type == KEYDOWN 
             if win_condition == None: 
-                if event.key == K_RIGHT: car.k_right = down * -5 
-                elif event.key == K_LEFT: car.k_left = down * 5
-                elif event.key == K_UP: car.k_up = down * 2
-                elif event.key == K_DOWN: car.k_down = down * -2 
-                elif event.key == K_ESCAPE: sys.exit(0) # quit the game
-            elif win_condition == True and event.key == K_SPACE: level2.level2()
-            elif win_condition == False and event.key == K_SPACE: 
+                if event.key == K_RIGHT:
+                    car.move_right(down)
+                elif event.key == K_LEFT:
+                    car.move_left(down)
+                elif event.key == K_UP:
+                    car.move_up(down)
+                elif event.key == K_DOWN:
+                    car.move_down(down)
+
+                elif event.key == K_ESCAPE:
+                    sys.exit(0) # quit the game
+
+            elif win_condition == True and event.key == K_SPACE:
+                # start level 2
+                level2()
+            elif win_condition == False and event.key == K_SPACE:
+                # restart level 1
                 level1()
                 t0 = t1
+
             elif event.key == K_ESCAPE: sys.exit(0)    
     
+
+
         #COUNTDOWN TIMER
         seconds = round((20 - dt),2)
         if win_condition == None:
@@ -69,6 +95,9 @@ def level1():
         #RENDERING
         screen.fill((0,0,0))
         car_group.update(deltat)
+
+
+        # NISSING SECTION: CRASHING
         collisions = pygame.sprite.groupcollide(car_group, pad_group, False, False, collided = None)
         if collisions != {}:
             win_condition = False
@@ -81,6 +110,8 @@ def level1():
             car.k_right = 0
             car.k_left = 0
 
+
+        # MISSING SECTION: TROPHY COLLECTION
         trophy_collision = pygame.sprite.groupcollide(car_group, trophy_group, False, True)
         if trophy_collision != {}:
             seconds = seconds
@@ -92,6 +123,8 @@ def level1():
             if win_condition == True:
                 car.k_right = -5
                 
+
+
         pad_group.update(collisions)
         pad_group.draw(screen)
         car_group.draw(screen)

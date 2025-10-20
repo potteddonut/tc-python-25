@@ -1,4 +1,4 @@
-import pygame, math, sys, level2, time
+import pygame, math, sys, time
 from pygame.locals import *
 
 class CarSprite(pygame.sprite.Sprite):
@@ -12,6 +12,7 @@ class CarSprite(pygame.sprite.Sprite):
         self.src_image = pygame.image.load(image)
         self.position = position
         self.speed = self.direction = 0
+
         self.k_left = self.k_right = self.k_down = self.k_up = 0
     
     def update(self, deltat):
@@ -30,3 +31,16 @@ class CarSprite(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.src_image, self.direction)
         self.rect = self.image.get_rect()
         self.rect.center = self.position
+
+    # utils for simple movement
+    def move_right(self, down: bool):
+        self.k_right = down * -5
+    
+    def move_left(self, down: bool):
+        self.k_left = down * 5
+    
+    def move_up(self, down: bool):
+        self.k_up = down * 2
+    
+    def move_down(self, down: bool):
+        self.k_down = down * -2

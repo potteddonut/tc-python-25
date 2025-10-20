@@ -1,9 +1,11 @@
-import pygame, math, sys, time, end, main
+import pygame, math, sys, time, end
 from pygame.locals import *
 
+import main
 
 pygame.init()
 screen = pygame.display.set_mode((1024, 768))
+
 while 1:
     screen.fill((0,0,0))
     for event in pygame.event.get():

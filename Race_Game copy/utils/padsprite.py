@@ -1,4 +1,4 @@
-import pygame, math, sys, level2, time
+import pygame, math, sys, time
 from pygame.locals import *
 
 class PadSprite(pygame.sprite.Sprite):
@@ -9,7 +9,10 @@ class PadSprite(pygame.sprite.Sprite):
         super(PadSprite, self).__init__()
         self.rect = pygame.Rect(self.normal.get_rect())
         self.rect.center = position
+        self.image = self.normal
 
     def update(self, hit_list):
-        if self in hit_list: self.image = self.hit
-        else: self.image = self.normal
+        if self in hit_list:
+            self.image = self.hit
+        else:
+            self.image = self.normal

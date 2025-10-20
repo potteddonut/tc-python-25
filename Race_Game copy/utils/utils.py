@@ -1,4 +1,4 @@
-import pygame, math, sys, level2, time
+import pygame, math, sys, time
 from pygame.locals import *
 
 def init_level():

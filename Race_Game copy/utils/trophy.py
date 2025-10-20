@@ -2,7 +2,7 @@ import pygame, math, sys, level2, time
 from pygame.locals import *
 
 class Trophy(pygame.sprite.Sprite):
-    def __init__(self, position):
+    def __init__(self, position: tuple[int, int]):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load('images/trophy.png')
         self.rect = self.image.get_rect()

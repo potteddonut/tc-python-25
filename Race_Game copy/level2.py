@@ -1,52 +1,12 @@
 #initialize the screen
-import pygame, math, sys, time, level3
+import pygame, math, sys, time, end
 from pygame.locals import *
 
+from utils.utils import init_level
+from utils.carsprite import CarSprite
+
 def level2():
-    pygame.init()
-    screen = pygame.display.set_mode((1024, 768))
-    #GAME CLOCK
-    clock = pygame.time.Clock()
-    font = pygame.font.Font(None, 75)
-    win_condition = None
-    pygame.mixer.music.load('My_Life_Be_Like.mp3')
-    win_font = pygame.font.Font(None, 50)
-    win_condition = None
-    win_text = font.render('', True, (0, 255, 0))
-    loss_text = font.render('', True, (255, 0, 0))
-    t0 = time.time()
-
-
-
-    class CarSprite(pygame.sprite.Sprite):
-        MAX_FORWARD_SPEED = 10
-        MAX_REVERSE_SPEED = 10
-        ACCELERATION = 2
-        TURN_SPEED = 10
-
-        def __init__(self, image, position):
-            pygame.sprite.Sprite.__init__(self)
-            self.src_image = pygame.image.load(image)
-            self.position = position
-            self.speed = self.direction = 0
-            self.k_left = self.k_right = self.k_down = self.k_up = 0
-        
-        def update(self, deltat):
-            #SIMULATION
-            self.speed += (self.k_up + self.k_down)
-            if self.speed > self.MAX_FORWARD_SPEED:
-                self.speed = self.MAX_FORWARD_SPEED
-            if self.speed < -self.MAX_REVERSE_SPEED:
-                self.speed = -self.MAX_REVERSE_SPEED
-            self.direction += (self.k_right + self.k_left)
-            x, y = (self.position)
-            rad = self.direction * math.pi / 180
-            x += -self.speed*math.sin(rad)
-            y += -self.speed*math.cos(rad)
-            self.position = (x, y)
-            self.image = pygame.transform.rotate(self.src_image, self.direction)
-            self.rect = self.image.get_rect()
-            self.rect.center = self.position
+    screen, clock, font, win_font, win_condition, win_text, loss_text, t0 = init_level()
 
     class PadSprite(pygame.sprite.Sprite):
         normal = pygame.image.load('images/vertical_pads.png')
@@ -103,10 +63,7 @@ def level2():
         SmallVerticalPad((350, 490)),
         SmallVerticalPad((350, 390)),
         SmallHorizontalPad((470, 270)),
-        SmallVerticalPad((600, 390))
-        # PadSprite((200, 368))
-    
-    
+        SmallVerticalPad((600, 390))    
     ]
     pad_group = pygame.sprite.RenderPlain(*pads)
 
@@ -137,15 +94,24 @@ def level2():
             if not hasattr(event, 'key'): continue
             down = event.type == KEYDOWN  
             if win_condition == None: 
-                if event.key == K_RIGHT: car.k_right = down * -5 
-                elif event.key == K_LEFT: car.k_left = down * 5
-                elif event.key == K_UP: car.k_up = down * 2
-                elif event.key == K_DOWN: car.k_down = down * -2 
-                elif event.key == K_ESCAPE: sys.exit(0) # quit the game
-            elif win_condition == True and event.key == K_SPACE: level3.level3()
+                if event.key == K_RIGHT:
+                    car.move_right(down)
+                elif event.key == K_LEFT:
+                    car.move_left(down)
+                elif event.key == K_UP:
+                    car.move_up(down)
+                elif event.key == K_DOWN:
+                    car.move_down(down)
+
+                elif event.key == K_ESCAPE:
+                    sys.exit(0) # quit the game
+
+            elif win_condition == True and event.key == K_SPACE:
+                end.end_game()
             elif win_condition == False and event.key == K_SPACE: 
                 level2()
                 t0 = t1
+
             elif event.key == K_ESCAPE: sys.exit(0)    
         
         #COUNTDOWN TIMER
@@ -157,7 +123,6 @@ def level2():
                 timer_text = font.render("Time!", True, (255,0,0))
                 loss_text = win_font.render('Press Space to Retry', True, (255,0,0))
             
-    
         #RENDERING
         screen.fill((0,0,0))
         car_group.update(deltat)
@@ -194,4 +159,3 @@ def level2():
         screen.blit(loss_text, (250, 700))
         pygame.display.flip()
         
-
