@@ -5,6 +5,7 @@ from pygame.locals import *
 from utils.utils import init_level
 from utils.carsprite import CarSprite
 
+pygame.mixer.init()
 crash_sound = pygame.mixer.Sound("explosion.wav")
 
 def level2():
