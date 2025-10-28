@@ -5,6 +5,8 @@ from pygame.locals import *
 from utils.utils import init_level
 from utils.carsprite import CarSprite
 
+crash_sound = pygame.mixer.Sound("explosion.wav")
+
 def level2():
     screen, clock, font, win_font, win_condition, win_text, loss_text, t0 = init_level()
 
@@ -84,6 +86,8 @@ def level2():
     car = CarSprite('images/car.png', (30, 730))
     car_group = pygame.sprite.RenderPlain(car)
 
+    crash_played = False
+
     #THE GAME LOOP
     while 1:
         t1 = time.time()
@@ -126,12 +130,18 @@ def level2():
         #RENDERING
         screen.fill((0,0,0))
         car_group.update(deltat)
+
         collisions = pygame.sprite.groupcollide(car_group, pad_group, False, False, collided = None)
         if collisions != {}:
             win_condition = False
             timer_text = font.render("Crash!", True, (255,0,0))
             car.image = pygame.image.load('images/collision.png')
             loss_text = win_font.render('Press Space to Retry', True, (255,0,0))
+
+            if not crash_played:
+                crash_sound.play()
+                crash_played = True
+
             seconds = 0
             car.MAX_FORWARD_SPEED = 0
             car.MAX_REVERSE_SPEED = 0
