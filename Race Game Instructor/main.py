@@ -1,5 +1,3 @@
-#pyright: reportAttributeAccessIssue=false 
-# 
 # initialize the screen
 import pygame, sys, time
 from pygame.locals import *
@@ -103,7 +101,7 @@ def level1():
         car_group.update(deltat)
 
 
-        # NISSING SECTION: CRASHING
+        # MISSING SECTION: CRASHING
         collisions = pygame.sprite.groupcollide(car_group, pad_group, False, False, collided = None)
         if collisions != {}:
             win_condition = False
@@ -136,12 +134,11 @@ def level1():
                 car.k_right = -5
                 
 
-
         pad_group.update(collisions)
         pad_group.draw(screen)
         car_group.draw(screen)
         trophy_group.draw(screen)
-        
+
         #Counter Render
         screen.blit(timer_text, (20,60))
         screen.blit(win_text, (250, 700))

@@ -145,7 +145,6 @@ def level2():
             win_condition = True
             car.MAX_FORWARD_SPEED = 0
             car.MAX_REVERSE_SPEED = 0
-            pygame.mixer.music.play(loops=0, start=0.0)
             win_text = win_font.render('Press Space to Advance', True, (0,255,0))
             if win_condition == True:
                 car.k_right = -5
