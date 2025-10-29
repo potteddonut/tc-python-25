@@ -57,6 +57,7 @@ def level1():
 
         deltat = clock.tick(30)
 
+
         # MISSING SECTION
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
@@ -65,13 +66,9 @@ def level1():
             keydown = event.type == KEYDOWN 
             if win_condition == None: 
                 if event.key == K_RIGHT:
-                    car.move_right(keydown)
                 elif event.key == K_LEFT:
-                    car.move_left(keydown)
                 elif event.key == K_UP:
-                    car.move_up(keydown)
                 elif event.key == K_DOWN:
-                    car.move_down(keydown)
 
                 elif event.key == K_ESCAPE:
                     sys.exit(0) # quit the game
@@ -111,15 +108,13 @@ def level1():
 
             # prevent sfx repeat
             if not crash_played:
-                crash_sound.play()
-                crash_played = True
 
             loss_text = win_font.render('Press Space to Retry', True, (255,0,0))
-            seconds = 0
-            car.MAX_FORWARD_SPEED = 0
-            car.MAX_REVERSE_SPEED = 0
-            car.k_right = 0
-            car.k_left = 0
+            seconds = 
+            car.MAX_FORWARD_SPEED = 
+            car.MAX_REVERSE_SPEED = 
+            car.k_right = 
+            car.k_left = 
 
 
         # MISSING SECTION: TROPHY COLLECTION
@@ -127,19 +122,17 @@ def level1():
         if trophy_collision != {}:
             seconds = seconds
             timer_text = font.render("Finished!", True, (0,255,0))
-            win_condition = True
-            car.MAX_FORWARD_SPEED = 0
-            car.MAX_REVERSE_SPEED = 0
+
+            win_condition = 
+            car.MAX_FORWARD_SPEED = 
+            car.MAX_REVERSE_SPEED = 
             win_text = win_font.render('Press Space to Advance', True, (0,255,0))
             if win_condition == True:
                 car.k_right = -5
                 
 
         # MISSING SECTION: RENDERING
-        pad_group.update(collisions)
-        pad_group.draw(screen)
-        car_group.draw(screen)
-        trophy_group.draw(screen)
+
 
         # Counter Render
         screen.blit(timer_text, (20,60))
