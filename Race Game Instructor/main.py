@@ -1,3 +1,5 @@
+# type: ignore
+
 # initialize the screen
 import pygame, sys, time
 from pygame.locals import *
@@ -61,16 +63,16 @@ def level1():
             if not hasattr(event, 'key'):
                 continue
 
-            down = event.type == KEYDOWN 
+            keydown = event.type == KEYDOWN 
             if win_condition == None: 
                 if event.key == K_RIGHT:
-                    car.move_right(down)
+                    car.move_right(keydown)
                 elif event.key == K_LEFT:
-                    car.move_left(down)
+                    car.move_left(keydown)
                 elif event.key == K_UP:
-                    car.move_up(down)
+                    car.move_up(keydown)
                 elif event.key == K_DOWN:
-                    car.move_down(down)
+                    car.move_down(keydown)
 
                 elif event.key == K_ESCAPE:
                     sys.exit(0) # quit the game
@@ -134,12 +136,13 @@ def level1():
                 car.k_right = -5
                 
 
+        # MISSING SECTION: RENDERING
         pad_group.update(collisions)
         pad_group.draw(screen)
         car_group.draw(screen)
         trophy_group.draw(screen)
 
-        #Counter Render
+        # Counter Render
         screen.blit(timer_text, (20,60))
         screen.blit(win_text, (250, 700))
         screen.blit(loss_text, (250, 700))
