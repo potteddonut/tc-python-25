@@ -110,11 +110,6 @@ def level1():
             if not crash_played:
 
             loss_text = win_font.render('Press Space to Retry', True, (255,0,0))
-            seconds = 
-            car.MAX_FORWARD_SPEED = 
-            car.MAX_REVERSE_SPEED = 
-            car.k_right = 
-            car.k_left = 
 
 
         # MISSING SECTION: TROPHY COLLECTION
@@ -123,9 +118,6 @@ def level1():
             seconds = seconds
             timer_text = font.render("Finished!", True, (0,255,0))
 
-            win_condition = 
-            car.MAX_FORWARD_SPEED = 
-            car.MAX_REVERSE_SPEED = 
             win_text = win_font.render('Press Space to Advance', True, (0,255,0))
             if win_condition == True:
                 car.k_right = -5
